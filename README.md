@@ -15,5 +15,8 @@
 - database.php > 向資料庫撈取資料傳給網頁
 - createtable.php > 快速建立資料庫及資料表
 
-# Version
+# Version:
 1.0.0
+
+#注意事項:
+<font color="red">使用Arduino的序列埠監控視窗，記得把右下的下拉選單改成 NL & CR 才能正常使用ESP-8266 .</font>
