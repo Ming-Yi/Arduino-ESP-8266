@@ -7,17 +7,17 @@ String SID = "WiFi名稱";
 String PWD = "WiFi密碼";
 
 /*
- * EX : http://127.0.0.1/wifiweb/receive.php
- * 		String IP = "127.0.0.1";
- * 		String Path = "wifiweb/receive.php"
+ * EX : http://127.0.0.1/wifiweb/receive.php?value=5
+ *     String IP = "127.0.0.1";
+ *    String Path = "wifiweb/receive.php?value="
  */
 String IP = "IP位址";
-String Path = "要GET的php檔案名稱";
+String Path = "php檔案名稱+GET的參數";
 
 // 是否要上傳
 boolean upload = false;
 // 要上傳的數值
-int Val = 0;
+int Val;
 
 void setup() {
     Serial.begin(9600); 
@@ -33,17 +33,17 @@ void loop() {
     {
         String input = Serial.readString();
         Serial.println(input);
-        if (input == "o\r\n")
+        if (input == "o")
         {
             Serial.println("\n|---  Upload Start  ---|");
             upload = true;
         }
-        else if (input == "x\r\n")
+        else if (input == "x")
         {
 			Serial.println("\n|---  Upload Stop  ---|");
 			upload = false;
         }
-        else if (input == "reset\r\n")
+        else if (input == "reset")
         { 
 			init_wifi();
 			upload = false;
@@ -56,12 +56,6 @@ void loop() {
         }
         input = "";  
     }
-
-    // ESP8266回傳http狀態
-	while(esp8266.available())
-	{
-		Serial.println(esp8266.readString());
-	}
 
 	// 是否上傳
 	if(upload)
@@ -108,7 +102,7 @@ void uploadData()
 	cmd += IP;
 	cmd += "\",80";
 	esp8266.println(cmd);
-	delay(1000);
+	Serial.println(cmd);
 
 	// 錯誤回傳
 	if(esp8266.find("Error")){
@@ -117,31 +111,32 @@ void uploadData()
 	}
 
 	// 準備要GET的字串
-	String getStr = "GET /"+Path+"?value=";
-	getStr += String(Val);
-	getStr +=" HTTP/1.1\r\nHost:"+IP;
-	getStr += "\r\n\r\n";
+	String getstr = "GET /"+Path+String(Val)+" HTTP/1.1\r\nHost:"+IP+"\r\n\r\n";
 
 	// 發送指定長度的數據
-	cmd = "AT+CIPSEND=";
-	cmd += String(getStr.length());
+	cmd = "AT+CIPSEND="+String(getstr.length());
 	esp8266.println(cmd);
+	Serial.println("length: "+cmd);
+	delay(500);
 
-	// 返回 ">"，然後開始傳輸通訊埠數據
+	// 長度的數據傳送成功，會返回 ">"，然後開始傳輸通訊埠數據
 	if(esp8266.find(">")){
-		esp8266.println(getStr);
+		Serial.println("> "+getstr);
 	}
 	else{
 		// 關閉連線
 		esp8266.println("AT+CIPCLOSE");
-		Serial.println("AT+CIPCLOSE");
+		Serial.println("AT+CIPCLOSE  connection closed!\r\n\r\n");
+		delay(2000);
+		return;
 	} 
-	delay(1000);
+	esp8266.println(getstr);
+	delay(2000);
 }
 
 /* 
- * 向ESP-8266發送指令，有延遲功能
- * sendCommand(指令,延遲時間)
+ * 向ESP-8266發送指令，有timeout功能
+ * sendCommand(指令,timeout)
  */
 void sendCommand(String command, const int timeout)
 {

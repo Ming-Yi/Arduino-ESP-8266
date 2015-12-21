@@ -1,9 +1,9 @@
 /*
  * --------指令測試--------
  * ---在序列監控視窗輸入---
- * AT			-> 測試回應
- * AT+RST		-> reset
- * AT+CWMODE?	-> 查詢模式
+ * AT      -> 測試回應
+ * AT+RST   -> reset
+ * AT+CWMODE? -> 查詢模式
  */
 
 #include <SoftwareSerial.h>
@@ -17,13 +17,13 @@ void setup() {
 }
 
 void loop() {
-	if (esp8266.available()) {
-		char data = esp8266.readString();
-		Serial.print(data);
-	}
+  if (esp8266.available()>0) {
+    String data = esp8266.readString();
+    Serial.println(data);
+  }
 
-	if (Serial.available()) {  
-		char chars = Serial.read();
-		esp8266.print(chars);
-	}
+  if (Serial.available()) {  
+    char data = Serial.read();
+    esp8266.print(data);
+  }
 }
