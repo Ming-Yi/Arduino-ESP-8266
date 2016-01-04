@@ -16,10 +16,10 @@
 - createtable.php > 快速建立資料庫及資料表
 
 # 接腳圖 :  
-![接腳圖](/image/pin.png)
+![接腳圖](/images/pin.png)
 
 # 文字接線圖 :
-![接腳圖2](/image/pin2.png)
+![接腳圖2](/images/pin2.png)
 # Version:
 1.0.0
 
