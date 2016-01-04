@@ -3,7 +3,7 @@
 
 # 檔案說明:
 ## Arduino 資料夾
-- Arduino_ESP-8266.ino > Arduino + ESP-8266 程式碼
+- ESP-8266.ino > Arduino + ESP-8266 程式碼
 
 ### AT-Test 資料夾
 
@@ -15,5 +15,11 @@
 - database.php > 向資料庫撈取資料傳給網頁
 - createtable.php > 快速建立資料庫及資料表
 
+# 接腳圖 :  
+![接腳圖](/image/pin.png)
+
+# 文字接線圖 :
+![接腳圖2](/image/pin2.png)
 # Version:
 1.0.0
+
