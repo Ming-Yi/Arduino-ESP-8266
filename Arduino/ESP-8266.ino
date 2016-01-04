@@ -61,12 +61,12 @@ void uploadData(int value)
 		return;
 	}
 
-  	// 準備要GET的字串
-    // HTTP/1.1
-  	String getstr = "GET /"+Path+String(value)+" HTTP/1.1\r\nHost:"+IP+"\r\n\r\n";
+	// 準備要GET的字串
+	// HTTP/1.1
+	String getstr = "GET /"+Path+String(value)+" HTTP/1.1\r\nHost:"+IP+"\r\n\r\n";
 
-    // HTTP/1.0
-    //String getstr = "GET /"+Path+String(value)+" HTTP/1.0\r\n\r\n\r\n";
+	// HTTP/1.0
+	//String getstr = "GET /"+Path+String(value)+" HTTP/1.0\r\n\r\n\r\n";
 
 	// 發送指定長度的數據
 	cmd = "AT+CIPSEND="+String(getstr.length());
